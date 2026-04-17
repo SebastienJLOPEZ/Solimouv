@@ -7,11 +7,15 @@
 <header class="flex justify-between items-center p-4 h-24 lg:hidden">
     <div class="flex items-center gap-4 text-white font-bold text-xl">
         <img src="/static/images/logo.jpeg" alt="Solimouv'" class="h-16 w-auto rounded-2xl border-2 border-white/20 shadow-sm object-contain">
-        Solimouv'
     </img>
-    <a href="/associations" class="h-12 px-4 rounded-2xl bg-white/10 border border-white/20 flex items-center gap-2 text-saffron font-bold text-sm no-underline">
-        <i data-lucide="award" class="w-5 h-5"></i> Partenaires
-    </a>
+    <div class="flex items-center gap-2">
+        <a href="/associations" class="h-12 px-4 rounded-2xl bg-white/10 border border-white/20 flex items-center gap-2 text-saffron font-bold text-sm no-underline">
+            <i data-lucide="award" class="w-5 h-5"></i> Partenaires
+        </a>
+        <button onclick="openDonModal()" class="h-12 px-4 rounded-2xl bg-action flex items-center gap-2 text-white font-bold text-sm cursor-pointer border-none">
+            <i data-lucide="heart" class="w-5 h-5"></i> Don
+        </button>
+    </div>
 </header>
 
 <!-- Carte héros -->
@@ -31,7 +35,9 @@
             <p class="text-base lg:text-lg text-center lg:text-left mb-8 font-medium text-white/90">L'inclusion par le sport pour tous.</p>
             <div class="flex gap-4 w-full lg:w-auto">
                 <a href="/programme" class="flex-1 lg:flex-none lg:px-8 bg-action text-white rounded-2xl h-16 font-bold shadow-sm flex items-center justify-center no-underline">Programme</a>
-                <a href="/a-propos" class="flex-1 lg:flex-none lg:px-8 bg-white text-primary rounded-2xl h-16 font-bold shadow-sm flex items-center justify-center no-underline">Valeurs</a>
+                <a href="/club?quiz=1" class="flex-1 lg:flex-none lg:px-8 bg-white text-primary rounded-2xl h-16 font-bold shadow-sm flex items-center justify-center no-underline gap-2">
+                    <i data-lucide="zap" class="w-5 h-5"></i> Trouve ton sport
+                </a>
             </div>
         </div>
     </div>

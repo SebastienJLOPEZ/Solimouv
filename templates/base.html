@@ -131,6 +131,9 @@
                 <a href="/club" class="desktop-nav-link {% if current_page == "club" %}desktop-nav-active{% endif %}">
                     <i data-lucide="users" class="w-4 h-4"></i> Club
                 </a>
+                <a href="https://www.helloasso.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-action text-white font-bold text-sm no-underline hover:opacity-90 transition-opacity">
+                    <i data-lucide="heart" class="w-4 h-4"></i> Don
+                </a>
             </div>
         </div>
     </nav>
@@ -162,6 +165,7 @@
         </div>
     </nav>
 
+    {% block modal %}{% endblock %}
     <script src="/static/js/app.js"></script>
     {% block scripts %}{% endblock %}
     <script>lucide.createIcons();</script>

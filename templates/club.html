@@ -196,5 +196,10 @@ function nextQuestion() {
         lucide.createIcons();
     }
 }
+
+// Auto-open quiz if ?quiz=1 in URL
+if (new URLSearchParams(window.location.search).get('quiz') === '1') {
+    document.getElementById('btn-start-quiz').click();
+}
 </script>
 {% endblock %}
