@@ -1,0 +1,205 @@
+/* ==========================================================================
+   Solimouv' – Custom Styles (complément Tailwind)
+   ========================================================================== */
+
+/* --- Reset minimal --- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* --- Hide scrollbar --- */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ==========================================================================
+   Fond dynamique (Blobs)
+   ========================================================================== */
+
+.bg-blobs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.4;
+    animation: float 10s ease-in-out infinite;
+}
+
+.blob-1 { width: 300px; height: 300px; background: #FF0066; top: -50px; right: -100px; }
+.blob-2 { width: 250px; height: 250px; background: #0029FF; top: 300px; left: -80px; }
+.blob-3 { width: 350px; height: 350px; background: #FFE600; top: 700px; right: -120px; opacity: 0.2; }
+.blob-4 { width: 200px; height: 200px; background: #FF0066; top: 1100px; left: 20px; }
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(20px, 30px); }
+}
+
+/* ==========================================================================
+   Activity Cards
+   ========================================================================== */
+
+.activity-card {
+    background-color: #FFFFFF;
+    border-radius: 24px;
+    padding: 16px;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.activity-card:active {
+    transform: scale(0.97);
+}
+
+.sport-img-mini {
+    width: 70px;
+    height: 70px;
+    border-radius: 16px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background-color: #F4F4F5;
+}
+
+/* ==========================================================================
+   Safe area pour bottom nav
+   ========================================================================== */
+
+.safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+/* ==========================================================================
+   Line clamp
+   ========================================================================== */
+
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   No underline helper
+   ========================================================================== */
+
+.no-underline {
+    text-decoration: none !important;
+}
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+
+@keyframes radar-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 0, 102, 0.7); }
+    70% { box-shadow: 0 0 0 16px rgba(255, 0, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 0, 102, 0); }
+}
+
+.animate-radar {
+    animation: radar-pulse 2s infinite;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeInUp 0.4s ease forwards;
+}
+
+/* ==========================================================================
+   Leaflet map fix (dans les conteneurs arrondis)
+   ========================================================================== */
+
+.leaflet-container {
+    border-radius: inherit;
+}
+
+/* ==========================================================================
+   Navigation active indicator
+   ========================================================================== */
+
+.nav-btn {
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.nav-btn.text-action::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 16px);
+    height: calc(100% - 8px);
+    background: rgba(255, 0, 102, 0.1);
+    border-radius: 16px;
+    z-index: -1;
+}
+
+/* ==========================================================================
+   Desktop navigation links
+   ========================================================================== */
+
+.desktop-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000000;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    text-decoration: none;
+}
+
+.desktop-nav-link:hover {
+    color: #0029FF;
+    background-color: rgba(0, 41, 255, 0.06);
+}
+
+.desktop-nav-active {
+    color: #FF0066 !important;
+    background-color: rgba(255, 0, 102, 0.08);
+}

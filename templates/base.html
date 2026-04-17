@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}Solimouv' – Le sport inclusif pour toutes et tous. Juin 2026.{% endblock %}">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{% block canonical %}https://solimouv.fr{% endblock %}">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{% block og_url %}https://solimouv.fr{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}Solimouv' – Festival sportif inclusif{% endblock %}">
+    <meta property="og:description" content="Le sport inclusif pour toutes et tous – Juin 2026.">
+    <meta property="og:image" content="https://solimouv.fr/static/images/og-cover.jpg">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="Solimouv'">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Solimouv' – Festival sportif inclusif">
+    <meta name="twitter:description" content="Le sport inclusif pour toutes et tous – Juin 2026.">
+    <meta name="twitter:image" content="https://solimouv.fr/static/images/og-cover.jpg">
+
+    <!-- Structured Data: Event -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SportsEvent",
+        "name": "Solimouv'",
+        "description": "Le sport inclusif pour toutes et tous. 13 associations, 30+ ateliers gratuits.",
+        "startDate": "2026-06-13T09:00:00+02:00",
+        "endDate": "2026-06-14T18:00:00+02:00",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "isAccessibleForFree": true,
+        "organizer": { "@type": "Organization", "name": "Solimouv'", "url": "https://solimouv.fr" },
+        "location": {
+            "@type": "Place",
+            "name": "Centre Sportif Charles Moureu",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "17 Avenue Edison",
+                "addressLocality": "Paris",
+                "postalCode": "75013",
+                "addressCountry": "FR"
+            }
+        },
+        "image": "https://solimouv.fr/static/images/og-cover.jpg",
+        "url": "https://solimouv.fr"
+    }
+    </script>
+
+    <meta name="theme-color" content="#1A0B2E">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Solimouv'">
+    <link rel="apple-touch-icon" href="/static/images/icon-192.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/static/images/favicon.svg" type="image/svg+xml">
+
+    <!-- ÉCO-CONCEPTION : polices systèmes uniquement, pas de chargement externe de fonts -->
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0029FF',
+                        action: '#FF0066',
+                        success: '#03CEA4',
+                        saffron: '#FFE600',
+                        tomato: '#1A0B2E',
+                        night: '#000000',
+                        paper: '#FFFFFF',
+                        cloud: '#F4F4F5',
+                    },
+                    fontFamily: {
+                        sans: ['system-ui', '-apple-system', 'sans-serif'],
+                        heading: ['system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Icônes Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>{% block title %}Solimouv' – Festival sportif inclusif{% endblock %}</title>
+    {% block head %}{% endblock %}
+</head>
+<body class="font-sans bg-tomato text-white min-h-screen overflow-x-hidden">
+
+    <!-- Fond dynamique (blobs) -->
+    <div class="bg-blobs" id="blobs-layer">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+    </div>
+
+    <!-- ====== DESKTOP TOP NAV (hidden on mobile) ====== -->
+    <nav class="hidden lg:block fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md border-b border-gray-200 z-50 text-night" aria-label="Navigation desktop">
+        <div class="max-w-6xl mx-auto flex items-center justify-between h-16 px-6">
+            <!-- Logo -->
+            <a href="/" class="flex items-center gap-3 no-underline">
+                <img src="/static/images/logo.jpeg" alt="Solimouv'" class="h-10 w-auto rounded-xl object-contain">
+                <span class="font-bold text-xl text-night">Solimouv'</span>
+            </a>
+            <!-- Links -->
+            <div class="flex items-center gap-4">
+                <a href="/" class="desktop-nav-link {% if current_page == "home" %}desktop-nav-active{% endif %}">
+                    <i data-lucide="home" class="w-4 h-4"></i> Accueil
+                </a>
+                <a href="/programme" class="desktop-nav-link {% if current_page == "programme" %}desktop-nav-active{% endif %}">
+                    <i data-lucide="calendar" class="w-4 h-4"></i> Programme
+                </a>
+                <a href="/carte" class="desktop-nav-link {% if current_page == "carte" %}desktop-nav-active{% endif %}">
+                    <i data-lucide="map" class="w-4 h-4"></i> Plan
+                </a>
+                <a href="/associations" class="desktop-nav-link {% if current_page == "associations" %}desktop-nav-active{% endif %}">
+                    <i data-lucide="heart-handshake" class="w-4 h-4"></i> Associations
+                </a>
+                <a href="/a-propos" class="desktop-nav-link {% if current_page == "about" %}desktop-nav-active{% endif %}">
+                    <i data-lucide="info" class="w-4 h-4"></i> À propos
+                </a>
+                <a href="/club" class="desktop-nav-link {% if current_page == "club" %}desktop-nav-active{% endif %}">
+                    <i data-lucide="users" class="w-4 h-4"></i> Club
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <main class="relative z-10 pb-28 lg:pb-12 lg:pt-16 lg:max-w-6xl lg:mx-auto">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- ====== MOBILE BOTTOM NAV (hidden on desktop) ====== -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 safe-area-bottom lg:hidden" aria-label="Navigation principale">
+        <div class="grid grid-cols-4 h-[72px] max-w-lg mx-auto px-2">
+            <a href="/" class="nav-btn flex flex-col items-center justify-center w-full h-full {% if current_page == "home" %}text-action{% else %}text-gray-400{% endif %}">
+                <i data-lucide="home" class="w-6 h-6 mb-1"></i>
+                <span class="text-[10px] font-bold uppercase tracking-widest">Home</span>
+            </a>
+            <a href="/programme" class="nav-btn flex flex-col items-center justify-center w-full h-full {% if current_page == "programme" %}text-action{% else %}text-gray-400{% endif %}">
+                <i data-lucide="calendar" class="w-6 h-6 mb-1"></i>
+                <span class="text-[10px] font-bold uppercase tracking-widest">Prog</span>
+            </a>
+            <a href="/carte" class="nav-btn flex flex-col items-center justify-center w-full h-full {% if current_page == "carte" %}text-action{% else %}text-gray-400{% endif %}">
+                <i data-lucide="map" class="w-6 h-6 mb-1"></i>
+                <span class="text-[10px] font-bold uppercase tracking-widest">Plan</span>
+            </a>
+            <a href="/club" class="nav-btn flex flex-col items-center justify-center w-full h-full {% if current_page == "club" %}text-action{% else %}text-gray-400{% endif %}">
+                <i data-lucide="users" class="w-6 h-6 mb-1"></i>
+                <span class="text-[10px] font-bold uppercase tracking-widest">Club</span>
+            </a>
+        </div>
+    </nav>
+
+    <script src="/static/js/app.js"></script>
+    {% block scripts %}{% endblock %}
+    <script>lucide.createIcons();</script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Plan – Solimouv'{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9/dist/leaflet.css" />
+{% endblock %}
+
+{% block content %}
+<!-- Header with Carte/Liste toggle -->
+<div class="p-4 h-24 flex items-center justify-center sticky top-0 bg-tomato/80 backdrop-blur-md z-20 lg:top-16">
+    <div class="flex bg-white/20 backdrop-blur-md rounded-2xl w-full max-w-[300px] p-2 h-16 items-center">
+        <button id="toggle-map-btn" class="flex-1 h-full bg-white rounded-xl font-bold text-night transition-all">Carte</button>
+        <button id="toggle-list-btn" class="flex-1 h-full bg-transparent rounded-xl font-bold text-white transition-all">Liste</button>
+    </div>
+</div>
+
+<!-- VUE CARTE -->
+<div id="plan-map-view" class="p-4 flex flex-col gap-6 lg:flex-row lg:gap-8">
+    <!-- Carte Leaflet -->
+    <div class="relative w-full h-[350px] lg:h-[600px] lg:flex-1 lg:sticky lg:top-40 rounded-3xl overflow-hidden border-4 border-white bg-cloud shadow-2xl">
+        <div id="map" class="w-full h-full"></div>
+    </div>
+
+    <!-- Autour de moi -->
+    <div class="space-y-4 lg:w-[400px] lg:flex-shrink-0">
+        <h2 class="font-bold text-lg text-white mb-2 uppercase tracking-widest px-2">Autour de moi</h2>
+        {% for jour in jours %}
+        {% for atelier in jour.ateliers %}
+        {% if loop.index <= 3 %}
+        <div class="activity-card">
+            {% if !atelier.image.is_empty() %}
+            <img src="{{ atelier.image }}" alt="{{ atelier.titre }}" class="sport-img-mini" loading="lazy">
+            {% else %}
+            <div class="sport-img-mini bg-cloud flex items-center justify-center text-3xl">{{ atelier.emoji }}</div>
+            {% endif %}
+            <div class="flex-1 min-w-0">
+                <span class="text-[10px] font-bold text-white bg-success px-2 py-1 rounded-md uppercase tracking-widest mb-1 inline-block">{{ atelier.heure }}</span>
+                <h3 class="font-bold text-lg leading-tight">{{ atelier.titre }}</h3>
+                <p class="text-xs text-gray-500 font-medium">{{ atelier.lieu }}</p>
+            </div>
+            <i data-lucide="{{ atelier.icon }}" class="text-primary w-6 h-6 flex-shrink-0"></i>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+
+<!-- VUE LISTE -->
+<div id="plan-list-view" class="hidden px-4 pb-8">
+    {% for jour in jours %}
+    <h2 class="text-sm font-bold text-saffron uppercase tracking-widest mt-4 mb-3">{{ jour.jour }} {{ jour.date }}</h2>
+    <div class="space-y-4 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0 mb-4">
+    {% for atelier in jour.ateliers %}
+    <div class="activity-card">
+        {% if !atelier.image.is_empty() %}
+        <img src="{{ atelier.image }}" alt="{{ atelier.titre }}" class="sport-img-mini" loading="lazy">
+        {% else %}
+        <div class="sport-img-mini bg-cloud flex items-center justify-center text-3xl">{{ atelier.emoji }}</div>
+        {% endif %}
+        <div class="flex-1 min-w-0">
+            <span class="text-[10px] font-bold text-white bg-success px-2 py-1 rounded-md uppercase tracking-widest mb-1 inline-block">{{ atelier.heure }}</span>
+            <h3 class="font-bold text-lg leading-tight">{{ atelier.titre }}</h3>
+            <p class="text-xs text-gray-500 font-medium">{{ atelier.lieu }}</p>
+        </div>
+        <i data-lucide="{{ atelier.icon }}" class="text-primary w-6 h-6 flex-shrink-0"></i>
+    </div>
+    {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/leaflet@1.9/dist/leaflet.js"></script>
+<script>
+// Leaflet map
+const festivalLat = 48.8566;
+const festivalLng = 2.3522;
+
+const map = L.map('map').setView([festivalLat, festivalLng], 15);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">Contributeurs OpenStreetMap</a>',
+    maxZoom: 19,
+}).addTo(map);
+
+const locations = [
+    { name: "Gymnase Principal",   lat: festivalLat + 0.001,  lng: festivalLng - 0.002 },
+    { name: "Terrain Synthétique", lat: festivalLat - 0.001,  lng: festivalLng + 0.001 },
+    { name: "Courts A et B",       lat: festivalLat + 0.002,  lng: festivalLng + 0.002 },
+    { name: "Espace Détente",      lat: festivalLat - 0.0005, lng: festivalLng - 0.001 },
+    { name: "Secteur Nord",        lat: festivalLat,          lng: festivalLng },
+    { name: "Gymnase B",           lat: festivalLat + 0.0005, lng: festivalLng + 0.0005 },
+];
+
+locations.forEach(loc => {
+    L.marker([loc.lat, loc.lng])
+        .addTo(map)
+        .bindPopup(`<strong>${loc.name}</strong>`);
+});
+
+// Carte / Liste toggle
+const btnMap = document.getElementById('toggle-map-btn');
+const btnList = document.getElementById('toggle-list-btn');
+const mapView = document.getElementById('plan-map-view');
+const listView = document.getElementById('plan-list-view');
+
+btnMap.addEventListener('click', () => {
+    mapView.classList.remove('hidden');
+    listView.classList.add('hidden');
+    btnMap.classList.add('bg-white', 'text-night');
+    btnMap.classList.remove('bg-transparent', 'text-white');
+    btnList.classList.remove('bg-white', 'text-night');
+    btnList.classList.add('bg-transparent', 'text-white');
+    setTimeout(() => map.invalidateSize(), 100);
+});
+
+btnList.addEventListener('click', () => {
+    mapView.classList.add('hidden');
+    listView.classList.remove('hidden');
+    btnList.classList.add('bg-white', 'text-night');
+    btnList.classList.remove('bg-transparent', 'text-white');
+    btnMap.classList.remove('bg-white', 'text-night');
+    btnMap.classList.add('bg-transparent', 'text-white');
+});
+</script>
+{% endblock %}

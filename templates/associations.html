@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Associations – Solimouv'{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="p-4 h-24 flex items-center justify-center sticky top-0 bg-tomato/80 backdrop-blur-md z-20 lg:top-16">
+    <h1 class="font-bold text-2xl text-saffron uppercase tracking-tighter">Nos associations</h1>
+</div>
+
+<div class="px-4 mb-6">
+    <p class="text-sm text-white/70 text-center">13 associations sportives unies pour un festival exceptionnel.</p>
+</div>
+
+<!-- Liste des associations -->
+<div class="px-4 pb-8 space-y-4">
+    {% for assoc in associations %}
+    <div class="bg-white p-5 rounded-3xl flex items-center gap-4 shadow-lg text-night">
+        <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0" style="background-color: {{ assoc.color }}20">
+            {{ assoc.emoji }}
+        </div>
+        <div class="flex-1 min-w-0">
+            <h3 class="font-bold text-base leading-tight">{{ assoc.name }}</h3>
+            <span class="text-xs font-bold uppercase tracking-widest" style="color: {{ assoc.color }}">{{ assoc.sport }}</span>
+            <p class="text-xs text-gray-500 mt-1 line-clamp-2">{{ assoc.description }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- CTA -->
+<div class="px-4 pb-8 space-y-4">
+    <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl p-8 text-center">
+        <h2 class="font-black text-xl mb-3 text-white uppercase tracking-tighter">Envie de rejoindre une asso ?</h2>
+        <p class="text-sm text-white/70 mb-6">Le festival est l'occasion idéale pour rencontrer les bénévoles et découvrir les activités proposées tout au long de l'année.</p>
+        <div class="flex gap-4">
+            <a href="/programme" class="flex-1 bg-action text-white rounded-2xl h-14 font-bold shadow-sm flex items-center justify-center text-sm no-underline">Programme</a>
+            <a href="/carte" class="flex-1 bg-primary text-white rounded-2xl h-14 font-bold shadow-sm flex items-center justify-center text-sm no-underline">Carte</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

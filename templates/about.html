@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}À propos – Solimouv'{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="p-4 h-24 flex items-center justify-center sticky top-0 bg-tomato/80 backdrop-blur-md z-20 lg:top-16">
+    <h1 class="font-bold text-2xl text-white uppercase tracking-tighter">À propos</h1>
+</div>
+
+<!-- Présentation -->
+<div class="px-4 mb-8">
+    <div class="bg-white rounded-3xl p-8 text-night shadow-xl">
+        <h2 class="font-black text-2xl mb-4 text-primary uppercase tracking-tighter">Solimouv', c'est quoi ?</h2>
+        <p class="text-sm leading-relaxed text-gray-700 mb-4">
+            <strong class="text-primary">Solimouv'</strong> est un festival sportif inclusif et gratuit, organisé en juin 2026 par 13 associations locales.
+        </p>
+        <p class="text-sm leading-relaxed text-gray-700">
+            Ouvert aux adultes, aux enfants, aux personnes en situation de précarité, aux personnes LGBTQA+ et aux personnes en situation de handicap, il propose plus de 30 ateliers et démonstrations sportives accessibles à toutes et tous.
+        </p>
+    </div>
+</div>
+
+<!-- Valeurs -->
+<div class="px-4 space-y-4 mb-8">
+    <h2 class="text-xl font-bold text-white tracking-tight">Nos valeurs</h2>
+
+    <div class="lg:grid lg:grid-cols-2 lg:gap-4 space-y-4 lg:space-y-0">
+
+    <div class="bg-success p-8 rounded-3xl shadow-xl text-center">
+        <div class="text-4xl mb-3">🤝</div>
+        <h3 class="font-black text-2xl mb-3 uppercase tracking-tighter text-night">Inclusion</h3>
+        <p class="font-medium text-sm text-white">Le sport pour tous, sans exception. Toutes les activités sont gratuites et accessibles.</p>
+    </div>
+
+    <div class="bg-primary p-8 rounded-3xl shadow-xl text-center">
+        <div class="text-4xl mb-3">🌍</div>
+        <h3 class="font-black text-2xl mb-3 uppercase tracking-tighter text-white">Cohésion</h3>
+        <p class="font-medium text-sm text-white/80">Le sport comme vecteur de lien social. Respect, entraide, diversité et partage.</p>
+    </div>
+
+    <div class="bg-action p-8 rounded-3xl shadow-xl text-center">
+        <div class="text-4xl mb-3">💪</div>
+        <h3 class="font-black text-2xl mb-3 uppercase tracking-tighter text-white">Sport</h3>
+        <p class="font-medium text-sm text-white/80">Découvrir la diversité des disciplines sportives et encourager la pratique régulière.</p>
+    </div>
+
+    <div class="bg-saffron p-8 rounded-3xl shadow-xl text-center">
+        <div class="text-4xl mb-3">🎉</div>
+        <h3 class="font-black text-2xl mb-3 uppercase tracking-tighter text-night">Convivialité</h3>
+        <p class="font-medium text-sm text-night/70">Animations, musique, restauration et bonne humeur sont au rendez-vous !</p>
+    </div>
+    </div>
+</div>
+
+<!-- Timeline -->
+<div class="px-4 mb-8">
+    <h2 class="text-xl font-bold text-white tracking-tight mb-4">L'aventure</h2>
+    <div class="space-y-4 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0">
+        <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6">
+            <span class="text-xs font-bold text-saffron uppercase tracking-widest">Janvier 2026</span>
+            <p class="text-sm text-white/80 mt-2">Lancement du projet et constitution du comité organisateur.</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6">
+            <span class="text-xs font-bold text-saffron uppercase tracking-widest">Mars 2026</span>
+            <p class="text-sm text-white/80 mt-2">Validation du programme avec les 13 associations.</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6">
+            <span class="text-xs font-bold text-saffron uppercase tracking-widest">Mai 2026</span>
+            <p class="text-sm text-white/80 mt-2">Campagne de communication et pré-inscriptions.</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6">
+            <span class="text-xs font-bold text-success uppercase tracking-widest">13-14 Juin 2026</span>
+            <p class="text-sm text-white/80 mt-2 font-bold">Le grand week-end de sport inclusif !</p>
+        </div>
+    </div>
+</div>
+
+<!-- Organisation -->
+<div class="px-4 mb-8">
+    <div class="bg-white rounded-3xl p-8 text-night shadow-xl">
+        <h2 class="font-black text-xl mb-4 text-primary uppercase tracking-tighter">L'organisation</h2>
+        <p class="text-sm leading-relaxed text-gray-700 mb-3">
+            Solimouv' est le fruit de la collaboration de <strong class="text-primary">13 associations sportives</strong> locales qui ont décidé d'unir leurs forces pour créer un événement unique et inclusif.
+        </p>
+        <p class="text-sm leading-relaxed text-gray-700">
+            L'événement est soutenu par la municipalité et les partenaires locaux qui mettent à disposition les infrastructures sportives.
+        </p>
+    </div>
+</div>
+
+<!-- CTA -->
+<div class="px-4 pb-8">
+    <div class="flex gap-4">
+        <a href="/programme" class="flex-1 bg-action text-white rounded-2xl h-14 font-bold shadow-sm flex items-center justify-center text-sm no-underline">Programme</a>
+        <a href="/associations" class="flex-1 bg-primary text-white rounded-2xl h-14 font-bold shadow-sm flex items-center justify-center text-sm no-underline">Associations</a>
+    </div>
+</div>
+{% endblock %}

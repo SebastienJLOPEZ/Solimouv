@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil – Solimouv'{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<header class="flex justify-between items-center p-4 h-24 lg:hidden">
+    <div class="flex items-center gap-4 text-white font-bold text-xl">
+        <img src="/static/images/logo.jpeg" alt="Solimouv'" class="h-16 w-auto rounded-2xl border-2 border-white/20 shadow-sm object-contain">
+        Solimouv'
+    </img>
+    <a href="/associations" class="h-12 px-4 rounded-2xl bg-white/10 border border-white/20 flex items-center gap-2 text-saffron font-bold text-sm no-underline">
+        <i data-lucide="award" class="w-5 h-5"></i> Partenaires
+    </a>
+</header>
+
+<!-- Carte héros -->
+<div class="p-4">
+    <div class="relative rounded-3xl overflow-hidden shadow-lg mb-8 min-h-[320px] lg:min-h-[420px]">
+        <!-- Carousel background -->
+        <div id="hero-carousel" class="absolute inset-0">
+            <img src="/static/images/public/festival_caroussel_pic_1.jpeg" alt="Public Solimouv'" class="hero-slide absolute inset-0 w-full h-full object-cover opacity-100 transition-opacity duration-1000">
+            <img src="/static/images/public/festival_caroussel_pic_2.jpeg" alt="Public Solimouv'" class="hero-slide absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000">
+        </div>
+        <!-- Overlay gradient -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20"></div>
+        <!-- Content -->
+        <div class="relative z-10 flex flex-col items-center lg:items-start p-8 lg:p-12 text-white">
+            <i data-lucide="sun" class="w-16 h-16 text-saffron mb-4"></i>
+            <h1 class="font-bold text-3xl lg:text-5xl mb-4 text-white text-center lg:text-left leading-tight">Festival Solimouv'</h1>
+            <p class="text-base lg:text-lg text-center lg:text-left mb-8 font-medium text-white/90">L'inclusion par le sport pour tous.</p>
+            <div class="flex gap-4 w-full lg:w-auto">
+                <a href="/programme" class="flex-1 lg:flex-none lg:px-8 bg-action text-white rounded-2xl h-16 font-bold shadow-sm flex items-center justify-center no-underline">Programme</a>
+                <a href="/a-propos" class="flex-1 lg:flex-none lg:px-8 bg-white text-primary rounded-2xl h-16 font-bold shadow-sm flex items-center justify-center no-underline">Valeurs</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistiques -->
+    <div class="grid grid-cols-4 gap-4">
+        <div class="bg-white rounded-2xl p-4 lg:p-6 text-center text-night">
+            <span class="block text-2xl lg:text-4xl font-bold text-action">500+</span>
+            <span class="text-[10px] lg:text-sm font-bold uppercase">Public</span>
+        </div>
+        <div class="bg-white rounded-2xl p-4 lg:p-6 text-center text-night">
+            <span class="block text-2xl lg:text-4xl font-bold text-primary">13</span>
+            <span class="text-[10px] lg:text-sm font-bold uppercase">Assos</span>
+        </div>
+        <div class="bg-white rounded-2xl p-4 lg:p-6 text-center text-night">
+            <span class="block text-2xl lg:text-4xl font-bold text-success">30+</span>
+            <span class="text-[10px] lg:text-sm font-bold uppercase">Ateliers</span>
+        </div>
+        <div class="bg-white rounded-2xl p-4 lg:p-6 text-center text-night">
+            <span class="block text-2xl lg:text-4xl font-bold text-saffron">100%</span>
+            <span class="text-[10px] lg:text-sm font-bold uppercase">Gratuit</span>
+        </div>
+    </div>
+</div>
+
+<!-- Infos pratiques -->
+<div class="px-4 mb-8 mt-4 lg:grid lg:grid-cols-2 lg:gap-6">
+    <div class="bg-white text-night rounded-3xl p-8 shadow-xl mb-6 lg:mb-0">
+        <h3 class="font-bold text-lg mb-2 uppercase text-primary flex items-center gap-2">
+            <i data-lucide="map-pin" class="w-5 h-5"></i> Lieu
+        </h3>
+        <p class="text-base font-bold">Centre Sportif Charles Moureu</p>
+        <p class="text-sm text-gray-500">17 Avenue Edison, 75013 Paris</p>
+    </div>
+    <div class="bg-saffron p-8 rounded-3xl text-night shadow-xl text-center">
+        <h3 class="font-bold text-xl mb-2 uppercase tracking-tighter text-primary flex items-center justify-center gap-2">
+            <i data-lucide="clock" class="w-5 h-5"></i> Horaires
+        </h3>
+        <p class="text-2xl font-black">13 &amp; 14 JUIN — 09H – 18H</p>
+    </div>
+</div>
+
+<!-- Présentation -->
+<div class="px-4 mb-8">
+    <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl p-8 lg:p-12">
+        <h2 class="text-xl lg:text-2xl font-bold text-white mb-4">Un festival <span class="text-saffron">pour tous</span></h2>
+        <p class="text-sm lg:text-base text-white/80 leading-relaxed mb-4">Adultes, enfants, personnes en situation de précarité, personnes LGBTQA+, personnes en situation de handicap : Solimouv' est ouvert à toutes et tous.</p>
+        <div class="grid grid-cols-3 gap-3">
+            <div class="text-center">
+                <span class="text-2xl block mb-1">🎯</span>
+                <span class="text-xs font-bold text-white">Initiations</span>
+            </div>
+            <div class="text-center">
+                <span class="text-2xl block mb-1">🏆</span>
+                <span class="text-xs font-bold text-white">Tournois</span>
+            </div>
+            <div class="text-center">
+                <span class="text-2xl block mb-1">👨‍👩‍👧‍👦</span>
+                <span class="text-xs font-bold text-white">En famille</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Derniers articles -->
+<div class="px-4 mb-8">
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold text-white tracking-tight">Derniers articles</h2>
+    </div>
+    <div class="space-y-4 lg:grid lg:grid-cols-3 lg:gap-6 lg:space-y-0">
+        <article class="bg-white rounded-3xl overflow-hidden shadow-lg text-night">
+            <div class="h-40 bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center">
+                <i data-lucide="megaphone" class="w-12 h-12 text-white"></i>
+            </div>
+            <div class="p-6">
+                <span class="text-[10px] font-bold text-success uppercase tracking-widest">17 Avril 2026</span>
+                <h3 class="font-bold text-lg mt-1 mb-2">Le programme complet est en ligne !</h3>
+                <p class="text-sm text-gray-500 line-clamp-2">Découvrez les 30+ ateliers sportifs gratuits proposés les 13 et 14 juin au Centre Sportif Charles Moureu.</p>
+            </div>
+        </article>
+        <article class="bg-white rounded-3xl overflow-hidden shadow-lg text-night">
+            <div class="h-40 bg-gradient-to-br from-action to-action/70 flex items-center justify-center">
+                <i data-lucide="users" class="w-12 h-12 text-white"></i>
+            </div>
+            <div class="p-6">
+                <span class="text-[10px] font-bold text-success uppercase tracking-widest">10 Avril 2026</span>
+                <h3 class="font-bold text-lg mt-1 mb-2">13 associations mobilisées</h3>
+                <p class="text-sm text-gray-500 line-clamp-2">Football, judo, yoga, escrime… 13 associations sportives s'unissent pour créer un événement unique et inclusif.</p>
+            </div>
+        </article>
+        <article class="bg-white rounded-3xl overflow-hidden shadow-lg text-night">
+            <div class="h-40 bg-gradient-to-br from-saffron to-saffron/70 flex items-center justify-center">
+                <i data-lucide="map-pin" class="w-12 h-12 text-night"></i>
+            </div>
+            <div class="p-6">
+                <span class="text-[10px] font-bold text-success uppercase tracking-widest">2 Avril 2026</span>
+                <h3 class="font-bold text-lg mt-1 mb-2">Le lieu est confirmé</h3>
+                <p class="text-sm text-gray-500 line-clamp-2">Le Centre Sportif Charles Moureu (Paris 13e) accueillera le festival avec gymnases, terrains et espaces détente.</p>
+            </div>
+        </article>
+    </div>
+</div>
+
+<!-- CTA -->
+<div class="px-4 mb-8 lg:flex lg:justify-center">
+    <a href="/programme" class="w-full lg:w-auto lg:px-16 bg-action text-white h-16 rounded-3xl font-bold flex justify-center items-center gap-4 shadow-lg no-underline">
+        <i data-lucide="calendar" class="w-6 h-6"></i> Voir le programme complet
+    </a>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function() {
+    const slides = document.querySelectorAll('.hero-slide');
+    if (slides.length < 2) return;
+    let current = 0;
+    setInterval(() => {
+        slides[current].style.opacity = '0';
+        current = (current + 1) % slides.length;
+        slides[current].style.opacity = '1';
+    }, 4000);
+})();
+</script>
+{% endblock %}
