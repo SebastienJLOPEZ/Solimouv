@@ -2,6 +2,7 @@ services:
   - type: web
     name: festival-sport-2026
     runtime: docker
+    dockerfilePath: ./Dockerfile
     region: frankfurt
     plan: free
     healthCheckPath: /healthz
