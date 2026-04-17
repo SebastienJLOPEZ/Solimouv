@@ -251,12 +251,14 @@ async fn main() {
         .nest_service("/static", ServeDir::new("static"))
         .fallback(get(not_found));
 
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000")
+    let port = std::env::var("PORT").unwrap_or_else(|_| "3000".to_string());
+    let addr = format!("0.0.0.0:{port}");
+    let listener = tokio::net::TcpListener::bind(&addr)
         .await
-        .expect("Impossible de démarrer le serveur sur le port 3000");
+        .unwrap_or_else(|_| panic!("Impossible de démarrer le serveur sur le port {port}"));
 
-    tracing::info!("Solimouv' – http://localhost:3000");
-    println!("🏅 Solimouv' – http://localhost:3000");
+    tracing::info!("Solimouv' – http://localhost:{port}");
+    println!("🏅 Solimouv' – http://localhost:{port}");
 
     axum::serve(listener, app)
         .await

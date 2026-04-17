@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: festival-sport-2026
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    region: frankfurt
+    plan: free
+    envVars:
+      - key: RUST_LOG
+        value: info
