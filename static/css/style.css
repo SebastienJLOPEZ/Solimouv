@@ -221,6 +221,7 @@ img {
 .activity-modal-overlay.is-open {
     opacity: 1;
     pointer-events: auto;
+    display: flex !important;
 }
 
 .activity-modal-content {
