@@ -2,6 +2,10 @@
 
 {% block title %}Programme – Solimouv'{% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9/dist/leaflet.css" />
+{% endblock %}
+
 {% block content %}
 <!-- Header -->
 <div class="p-4 text-center h-24 flex items-center justify-center sticky top-0 bg-tomato/80 backdrop-blur-md z-20 lg:top-16">
@@ -14,7 +18,14 @@
     <h2 class="text-sm font-bold text-saffron uppercase tracking-widest mb-3">{{ jour.jour }} {{ jour.date }}</h2>
     <div class="space-y-4 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0">
         {% for atelier in jour.ateliers %}
-        <div class="activity-card">
+        <div class="activity-card cursor-pointer"
+             data-titre="{{ atelier.titre }}"
+             data-heure="{{ atelier.heure }}"
+             data-lieu="{{ atelier.lieu }}"
+             data-description="{{ atelier.description }}"
+             data-emoji="{{ atelier.emoji }}"
+             data-image="{{ atelier.image }}"
+             data-association="{{ atelier.association }}">
             {% if !atelier.image.is_empty() %}
             <img src="{{ atelier.image }}" alt="{{ atelier.titre }}" class="sport-img-mini" loading="lazy">
             {% else %}
@@ -31,4 +42,197 @@
     </div>
 </div>
 {% endfor %}
+
+<!-- ===== POPUP MODAL ===== -->
+<div id="activity-modal" class="activity-modal-overlay" aria-hidden="true">
+    <div class="activity-modal-content animate-fade-in">
+        <!-- Close button -->
+        <button id="modal-close" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors z-10" aria-label="Fermer">
+            <i data-lucide="x" class="w-5 h-5 text-gray-600"></i>
+        </button>
+
+        <!-- Step 1: Activity info + choice -->
+        <div id="modal-step-choice">
+            <!-- Image / emoji header -->
+            <div id="modal-header-img" class="w-full h-40 rounded-2xl overflow-hidden mb-4 bg-cloud flex items-center justify-center">
+                <img id="modal-img" src="" alt="" class="w-full h-full object-cover hidden">
+                <span id="modal-emoji" class="text-6xl hidden"></span>
+            </div>
+
+            <span id="modal-heure" class="text-[10px] font-bold text-white bg-success px-2 py-1 rounded-md uppercase tracking-widest mb-2 inline-block"></span>
+            <h2 id="modal-titre" class="font-bold text-xl text-night mb-1"></h2>
+            <p id="modal-association" class="text-sm text-primary font-semibold mb-1"></p>
+            <p id="modal-lieu" class="text-xs text-gray-500 font-medium mb-2 flex items-center gap-1">
+                <i data-lucide="map-pin" class="w-3 h-3"></i>
+                <span id="modal-lieu-text"></span>
+            </p>
+            <p id="modal-description" class="text-sm text-gray-600 mb-6"></p>
+
+            <!-- Choice buttons -->
+            <p class="text-sm font-bold text-night mb-3 uppercase tracking-widest">Je participe</p>
+            <div class="flex flex-col gap-3">
+                <button class="modal-choice-btn" data-mode="solo">
+                    <i data-lucide="user" class="w-5 h-5"></i>
+                    <span>Je viens seul(e)</span>
+                </button>
+                <button class="modal-choice-btn" data-mode="duo">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                    <span>Je viens accompagné(e)</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 2: Confirmation + Map -->
+        <div id="modal-step-map" class="hidden">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                    <i data-lucide="check" class="w-5 h-5 text-green-600"></i>
+                </div>
+                <div>
+                    <p class="font-bold text-night text-sm" id="confirm-text"></p>
+                    <p class="text-xs text-gray-500" id="confirm-activity"></p>
+                </div>
+            </div>
+
+            <p class="text-sm font-bold text-night mb-2 uppercase tracking-widest">Retrouve l'activité sur la carte</p>
+            <div class="w-full h-[250px] rounded-2xl overflow-hidden border-2 border-gray-200 mb-4">
+                <div id="modal-map" class="w-full h-full"></div>
+            </div>
+
+            <button id="modal-done" class="w-full py-3 bg-action text-white font-bold rounded-2xl hover:opacity-90 transition-opacity">
+                C'est noté !
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/leaflet@1.9/dist/leaflet.js"></script>
+<script>
+(function() {
+    // Mapping lieu → coords (Centre Sportif Charles Moureu, Paris 13)
+    const festivalLat = 48.8566;
+    const festivalLng = 2.3522;
+
+    const lieuCoords = {
+        "Scène principale":  { lat: festivalLat,           lng: festivalLng },
+        "Stade municipal":   { lat: festivalLat + 0.001,   lng: festivalLng - 0.002 },
+        "Terrain A":         { lat: festivalLat - 0.001,   lng: festivalLng + 0.001 },
+        "Terrain B":         { lat: festivalLat - 0.001,   lng: festivalLng + 0.0015 },
+        "Gymnase":           { lat: festivalLat + 0.0005,  lng: festivalLng + 0.0005 },
+        "Départ parking":    { lat: festivalLat + 0.002,   lng: festivalLng + 0.002 },
+        "Piscine":           { lat: festivalLat - 0.0005,  lng: festivalLng - 0.001 },
+        "Dojo extérieur":    { lat: festivalLat + 0.0015,  lng: festivalLng - 0.001 },
+        "Courts de tennis":  { lat: festivalLat + 0.002,   lng: festivalLng + 0.002 },
+        "Terrain sable":     { lat: festivalLat - 0.0015,  lng: festivalLng + 0.0008 },
+        "Pelouse centrale":  { lat: festivalLat + 0.0008,  lng: festivalLng - 0.0005 },
+        "Salle couverte":    { lat: festivalLat + 0.0012,  lng: festivalLng + 0.001 },
+    };
+
+    const modal = document.getElementById('activity-modal');
+    const stepChoice = document.getElementById('modal-step-choice');
+    const stepMap = document.getElementById('modal-step-map');
+    let modalMap = null;
+    let currentLieu = '';
+
+    // Open modal on activity card click
+    document.querySelectorAll('.activity-card[data-titre]').forEach(card => {
+        card.addEventListener('click', () => {
+            const titre = card.dataset.titre;
+            const heure = card.dataset.heure;
+            const lieu = card.dataset.lieu;
+            const description = card.dataset.description;
+            const emoji = card.dataset.emoji;
+            const image = card.dataset.image;
+            const association = card.dataset.association;
+
+            // Fill modal
+            document.getElementById('modal-titre').textContent = titre;
+            document.getElementById('modal-heure').textContent = heure;
+            document.getElementById('modal-lieu-text').textContent = lieu;
+            document.getElementById('modal-description').textContent = description;
+            document.getElementById('modal-association').textContent = association;
+            currentLieu = lieu;
+
+            const imgEl = document.getElementById('modal-img');
+            const emojiEl = document.getElementById('modal-emoji');
+            if (image) {
+                imgEl.src = image.replace('w=150', 'w=600');
+                imgEl.alt = titre;
+                imgEl.classList.remove('hidden');
+                emojiEl.classList.add('hidden');
+            } else {
+                imgEl.classList.add('hidden');
+                emojiEl.textContent = emoji;
+                emojiEl.classList.remove('hidden');
+            }
+
+            // Reset to step 1
+            stepChoice.classList.remove('hidden');
+            stepMap.classList.add('hidden');
+
+            // Show modal
+            modal.classList.add('is-open');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+
+            lucide.createIcons();
+        });
+    });
+
+    // Choice buttons
+    document.querySelectorAll('.modal-choice-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const mode = btn.dataset.mode;
+            const titre = document.getElementById('modal-titre').textContent;
+
+            // Update confirmation text
+            document.getElementById('confirm-text').textContent =
+                mode === 'solo' ? 'Tu viens seul(e) !' : 'Tu viens accompagné(e) !';
+            document.getElementById('confirm-activity').textContent = titre;
+
+            // Switch to map step
+            stepChoice.classList.add('hidden');
+            stepMap.classList.remove('hidden');
+
+            // Init or refresh map
+            setTimeout(() => {
+                if (modalMap) {
+                    modalMap.remove();
+                }
+                modalMap = L.map('modal-map').setView([festivalLat, festivalLng], 16);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap',
+                    maxZoom: 19,
+                }).addTo(modalMap);
+
+                const coords = lieuCoords[currentLieu] || { lat: festivalLat, lng: festivalLng };
+                const marker = L.marker([coords.lat, coords.lng]).addTo(modalMap);
+                marker.bindPopup('<strong>' + currentLieu + '</strong><br>' + titre).openPopup();
+                modalMap.setView([coords.lat, coords.lng], 17);
+
+                lucide.createIcons();
+            }, 100);
+        });
+    });
+
+    // Close modal
+    function closeModal() {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        if (modalMap) {
+            modalMap.remove();
+            modalMap = null;
+        }
+    }
+
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    document.getElementById('modal-done').addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+})();
+</script>
 {% endblock %}
