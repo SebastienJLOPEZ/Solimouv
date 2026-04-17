@@ -216,6 +216,10 @@ async fn sitemap() -> Response {
     ([(header::CONTENT_TYPE, "application/xml")], xml).into_response()
 }
 
+async fn healthz() -> StatusCode {
+    StatusCode::OK
+}
+
 async fn serve_manifest() -> Response {
     match tokio::fs::read_to_string("static/manifest.json").await {
         Ok(json) => (
@@ -236,6 +240,7 @@ async fn main() {
     tracing_subscriber::fmt::init();
 
     let app = Router::new()
+        .route("/healthz", get(healthz))
         .route("/", get(home))
         .route("/a-propos", get(about))
         .route("/programme", get(programme))
@@ -257,8 +262,8 @@ async fn main() {
         .await
         .unwrap_or_else(|_| panic!("Impossible de démarrer le serveur sur le port {port}"));
 
-    tracing::info!("Solimouv' – http://localhost:{port}");
-    println!("🏅 Solimouv' – http://localhost:{port}");
+    tracing::info!("Solimouv' – listening on {addr}");
+    println!("🏅 Solimouv' – listening on {addr}");
 
     axum::serve(listener, app)
         .await

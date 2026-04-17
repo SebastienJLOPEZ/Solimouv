@@ -46,9 +46,10 @@ Ouvrir `src/main.rs` et modifier :
 
 | Information | Fonction à modifier | Exemple |
 |------------|-------------------|---------|
-| Associations | `get_associations()` | Nom, sport, description, couleur |
-| Programme / Ateliers | `get_programme()` | Horaires, activités, jour |
+| Associations | `get_associations()` | Nom, sport, description, emoji, couleur |
+| Programme / Ateliers | `get_programme()` | Horaires, activités, lieu, jour |
 | Lieu & dates | Template `home.html` | Adresse, dates dans le HTML |
+| Lieux sur la carte | Template `carte.html` | Coordonnées GPS, noms des zones |
 
 **Exemple** — Ajouter une association :
 
@@ -56,13 +57,11 @@ Ouvrir `src/main.rs` et modifier :
 // Dans get_associations(), ajouter :
 Association {
     id: 14,
-    name: "Nouveau Club".to_string(),
-    sport: "Natation".to_string(),
-    description: "Club de natation inclusive".to_string(),
-    color: "#2196F3".to_string(),
-    members: 45,
-    lat: 48.8271,
-    lng: 2.3810,
+    name: "Nouveau Club",
+    sport: "Natation",
+    description: "Club de natation inclusive pour tous les âges.",
+    emoji: "🏊",
+    color: "#2196F3",
 },
 ```
 
@@ -105,6 +104,9 @@ colors: {
     success: '#03CEA4',   // Vert (badges)
     saffron: '#FFE600',   // Jaune (accents)
     tomato: '#1A0B2E',    // Violet foncé (fond)
+    night: '#000000',     // Noir (textes)
+    paper: '#FFFFFF',     // Blanc
+    cloud: '#F4F4F5',     // Gris clair (fonds)
 }
 ```
 
@@ -130,11 +132,21 @@ Les images sont dans `static/images/public/`. Pour les remplacer :
 Dans `templates/carte.html`, les coordonnées du festival :
 
 ```javascript
-const festivalLat = 48.8271;   // Latitude
-const festivalLng = 2.3810;    // Longitude
+const festivalLat = 48.8566;   // Latitude
+const festivalLng = 2.3522;    // Longitude
 ```
 
-Les marqueurs des associations sont positionnés via les champs `lat`/`lng` de chaque `Association` dans `src/main.rs`.
+Les marqueurs des lieux (gymnases, terrains, courts…) sont définis dans le tableau `locations` de `carte.html` :
+
+```javascript
+const locations = [
+    { name: "Gymnase Principal",   lat: festivalLat + 0.001,  lng: festivalLng - 0.002 },
+    { name: "Terrain Synthétique", lat: festivalLat - 0.001,  lng: festivalLng + 0.001 },
+    // ...
+];
+```
+
+Pour ajouter un lieu, ajouter une entrée dans ce tableau et recharger la page.
 
 ---
 
@@ -194,7 +206,18 @@ Le fichier `fly.toml` est pré-configuré :
 - Auto-scaling : s'arrête quand inactif, redémarre automatiquement
 - HTTPS forcé
 
-### Option C — Serveur classique
+### Option C — Render
+
+Le fichier `render.yaml` permet un déploiement sur [Render](https://render.com) :
+
+```bash
+# Pousser sur un dépôt GitHub connecté à Render
+git push
+```
+
+Render détectera automatiquement la configuration et construira le projet.
+
+### Option D — Serveur classique
 
 ```bash
 cargo build --release

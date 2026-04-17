@@ -5,6 +5,9 @@ services:
     dockerfilePath: ./Dockerfile
     region: frankfurt
     plan: free
+    healthCheckPath: /healthz
     envVars:
+      - key: PORT
+        value: "10000"
       - key: RUST_LOG
         value: info

@@ -21,6 +21,6 @@ COPY templates/ templates/
 COPY static/ static/
 
 ENV RUST_LOG=info
-EXPOSE 3000
+EXPOSE 10000
 
 CMD ["./festival-sport"]
